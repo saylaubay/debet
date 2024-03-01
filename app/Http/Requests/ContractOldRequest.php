@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class ContractOldRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules()
+    {
+        return [
+            'product_name'=>'required',
+            'product_id'=>'required',
+            'user_id'=>'required',
+            'price'=>'required',
+            'client_id'=>'required',
+            'percent'=>'required',
+            'part'=>'required',
+            'oldDate'=>'required',
+            'payedPart'=>'required',
+        ];
+    }
+}

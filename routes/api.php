@@ -63,9 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => 'contracts'], function () {
-
         Route::get('test', [ContractController::class, 'test']);
-
 
         Route::middleware(['hasRole:SUPER_ADMIN,ADMIN,USER'])->group(function (){
             Route::post('calc', [ContractController::class, 'calc']);

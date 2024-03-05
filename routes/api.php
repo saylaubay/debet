@@ -23,6 +23,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("/test", function (){
+   return "TEST PAGE";
+});
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post("login", [AuthController::class, 'login']);
@@ -34,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::group(['prefix' => 'companies'], function () {
+        Route::get('hammesi', [CompanyController::class, 'hammesi']);
+        Route::post('getAllCompany', [CompanyController::class, 'getAllCompany']);
         Route::put('blockCompany', [CompanyController::class, 'blockCompany']);
         Route::put('unBlockCompany', [CompanyController::class, 'unBlockCompany']);
     })->middleware('hasRole:SUPER_ADMIN');
@@ -74,6 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => 'users'], function () {
+        Route::get('getAllUsers', [UserController::class, 'getAllUsers'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
         Route::get('getUser', [UserController::class, 'getUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
         Route::put('blockUser', [UserController::class, 'blockUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
         Route::put('blockAdmin', [UserController::class, 'blockAdmin'])->middleware('hasRole:SUPER_ADMIN');
@@ -88,18 +94,19 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::group(['prefix' => 'clients'], function () {
+        Route::post('add', [ClientController::class, 'add'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
         Route::get('getAllMyClient', [ClientController::class, 'getAllMyClient'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
         Route::get('getClientsByUserId', [ClientController::class, 'getClientsByUserId'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
     });
 
     Route::apiResources([
-        'users' => UserController::class,//
-        'roles' => RoleController::class,//
+        'users' => UserController::class,
         'rules' => RuleController::class,
-        'debets' => DebetController::class,//
-        'clients' => ClientController::class,//
+        'roles' => RoleController::class,
+        'debets' => DebetController::class,
+        'clients' => ClientController::class,
         'products' => ProductController::class,
-        'companies' => CompanyController::class,//
+        'companies' => CompanyController::class,
         'contracts'=> ContractController::class,
     ]);
 

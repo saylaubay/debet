@@ -9,6 +9,8 @@ use Ramsey\Uuid\Type\Integer;
 interface ClientRepositoryInterface
 {
 
+    public function save($first_name, $last_name, $phone, $company_id);
+
     public function deleteById($id);
 
     public function findByPhone($phone);

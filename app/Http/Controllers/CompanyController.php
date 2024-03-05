@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompanyBlockRequest;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\CompanyUpdateRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CompanyController extends BaseController
 {
@@ -13,6 +15,7 @@ class CompanyController extends BaseController
     public function index()
     {
         $companies = $this->companyService->getAllCompanies();
+//        Log::alert("KIRDI - " . $companies);
         return $this->response($companies);
     }
 
@@ -52,6 +55,18 @@ class CompanyController extends BaseController
         return  $this->response($update);
     }
 
+    public function getAllCompany()
+    {
+        $companies = $this->companyService->getAllCompanies();
+        return  $this->response($companies);
+    }
+
+    public function hammesi()
+    {
+        Log::alert(auth()->user());
+        $companies = $this->companyService->getAllCompanies();
+        return  $this->response($companies);
+    }
 
 
 

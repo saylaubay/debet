@@ -36,17 +36,12 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function existsByPhone($phone)
     {
-        $client = Client::where('phone', $phone)->exists();
+        $client = Client::where('phone', $phone)->first();
         if ($client){
             return null;
 //            return new ApiResponse('Bunday klient bazada bar!', false);
         }
-        $client =Client::create([
-            "first_name"=>$client->first_name,
-            "last_name"=>$client->last_name,
-            "phone"=>$client->phone,
-            "company_id"=>$client->company_id,
-        ]);
+
         return $client;
     }
 
@@ -100,5 +95,16 @@ class ClientRepository implements ClientRepositoryInterface
         }
         Client::destroy($id);
         return true;
+    }
+
+    public function save($first_name, $last_name, $phone, $company_id)
+    {
+        $client =Client::create([
+            "first_name"=>$first_name,
+            "last_name"=>$last_name,
+            "phone"=>$phone,
+            "company_id"=>$company_id,
+        ]);
+        return $client;
     }
 }

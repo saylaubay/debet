@@ -15,6 +15,7 @@ use App\Services\ProductService;
 use App\Services\RoleService;
 use App\Services\RuleService;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Log;
 
 class ClientController extends BaseController
 {
@@ -23,6 +24,7 @@ class ClientController extends BaseController
     {
         $this->middleware('hasRole:SUPER_ADMIN,ADMIN')->only('getClientsByUserId');
         $this->middleware('hasRole:SUPER_ADMIN,ADMIN,USER')->only('store');
+        $this->middleware('hasRole:SUPER_ADMIN,ADMIN,USER')->only('add');
         $this->middleware('hasRole:SUPER_ADMIN')->only('index');
         parent::__construct($clientService, $companyService, $contractService, $debetService, $productService, $roleService, $ruleService, $userService, $authService);
     }
@@ -31,6 +33,12 @@ class ClientController extends BaseController
     {
         $clients = $this->clientService->getAll();
         return $this->response($clients);
+    }
+
+    public function add(ClientStoreRequest $request)
+    {
+        $store = $this->clientService->addClient($request);
+        return $this->response($store);
     }
 
    public function store(ClientStoreRequest $request)

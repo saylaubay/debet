@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Http\Requests\ContractByNumberRequest;
+use App\Http\Resources\ContractResource;
 use App\Models\ApiResponse;
 use App\Models\Client;
 use App\Models\Company;
@@ -26,7 +27,7 @@ class ContractService extends BaseService
     public function getAll()
     {
         $contracts = $this->contractRepository->findAll();
-        return new ApiResponse("Contractlar dizimi : ", true, $contracts);
+        return new ApiResponse("Contractlar dizimi : ", true, ContractResource::collection($contracts));
     }
 
     public function getOne($id)
@@ -35,7 +36,7 @@ class ContractService extends BaseService
         if ($contract == null) {
             return new ApiResponse("Bunday id li contract tabilmadi!!!", false);
         }
-        return new ApiResponse("Contract : ", true, $contract);
+        return new ApiResponse("Contract : ", true, new ContractResource($contract));
     }
 
     public function save($request)
@@ -88,7 +89,7 @@ class ContractService extends BaseService
                 $sMonth++;
             }
         }
-        return new ApiResponse("Contract saqlandi!!!", true, $savedContract);
+        return new ApiResponse("Contract saqlandi!!!", true, new ContractResource($savedContract));
     }
 
     public function addContractOld($request)
@@ -191,12 +192,12 @@ class ContractService extends BaseService
 
     public function byNumber($client_phone)
     {
-//        $contracts = $this->contractRepository->findByPhone($client_phone, auth()->user()->company_id, auth()->user()->company_id,auth()->user()->id);
-        $contracts = $this->contractRepository->findByPhone($client_phone, 1, 2, 1);
+        $contracts = $this->contractRepository->findByPhone($client_phone, auth()->user()->company_id, auth()->user()->company_id,auth()->user()->id);
+//        $contracts = $this->contractRepository->findByPhone($client_phone, 1, 2, 1);
         if ($contracts == null || !$contracts) {
             return new ApiResponse("Mag'liwmatlarda qa'telik bar!!!", false);
         }
-        return new ApiResponse("Contract list : ", true, $contracts);
+        return new ApiResponse("Contract list : ", true, ContractResource::collection($contracts));
     }
 
     public function calc($request)
@@ -215,13 +216,13 @@ class ContractService extends BaseService
     {
         //findByClient_Phone
         $contracts = $this->contractRepository->findByClient_Phone($request->phone);
-        return new ApiResponse("Contract list : ", true, $contracts);
+        return new ApiResponse("Contract list : ", true, ContractResource::collection($contracts));
     }
 
     public function getMyContract()
     {
         $contracts = $this->contractRepository->findByWorkerId(auth()->user()->id);
-        return new ApiResponse("My contract list : ", true, $contracts);
+        return new ApiResponse("My contract list : ", true, ContractResource::collection($contracts));
     }
 
     public function getAllContractByNoPayed()
@@ -238,7 +239,7 @@ class ContractService extends BaseService
 //            1,
 //            1
 //        );
-        return new ApiResponse("Get all contracts no payed!!!", true, $contracts);
+        return new ApiResponse("Get all contracts no payed!!!", true, ContractResource::collection($contracts));
     }
 
     public function getAllContractByPayed()
@@ -255,7 +256,7 @@ class ContractService extends BaseService
             auth()->user()->company->id,
             auth()->user()->id
         );
-        return new ApiResponse("Get all contracts by payed!!!", true, $contracts);
+        return new ApiResponse("Get all contracts by payed!!!", true, ContractResource::collection($contracts));
     }
 
     public function getAllContractByClientAndUser()
@@ -270,21 +271,21 @@ class ContractService extends BaseService
 //            1,
 //            4
 //        );
-        return new ApiResponse("Contract list : ", true, $contracts);
+        return new ApiResponse("Contract list : ", true, ContractResource::collection($contracts));
     }
 
     public function getContractByCompanyId($id)
     {
         //findByWorker_CompanyId
         $contracts = $this->contractRepository->findByWorker_CompanyId($id);
-        return new ApiResponse("Contract list : ", true, $contracts);
+        return new ApiResponse("Contract list : ", true, ContractResource::collection($contracts));
     }
 
     public function getAllContractByUserId($id)
     {
         //findByWorkerId
         $contract = $this->contractRepository->findByWorkerId($id);
-        return new ApiResponse("Contract list : ", true, $contract);
+        return new ApiResponse("Contract list : ", true, ContractResource::collection($contract));
     }
 
     public function getContractReportDayByCompany()
@@ -312,7 +313,7 @@ class ContractService extends BaseService
        $reports =  $this->contractRepository->findByWorker_CompanyAndCreatedAtBetweenAndWorker_CompanyActive(auth()->user()->company_id, $start, $end, true);
 //        $reports = $this->contractRepository->findByWorker_CompanyAndCreatedAtBetweenAndWorker_CompanyActive(1, $start, $end, true);
 
-        return new ApiResponse("Menin' kompaniyamnin' ku'nlik contract lar dizimi!", true, $reports);
+        return new ApiResponse("Menin' kompaniyamnin' ku'nlik contract lar dizimi!", true, ContractResource::collection($reports));
     }
 
     public function checkCompany($company_id)
@@ -350,7 +351,7 @@ class ContractService extends BaseService
             $now,
             true
         );
-        return new ApiResponse("Contract list : ", true, $contracts);
+        return new ApiResponse("Contract list : ", true, ContractResource::collection($contracts));
     }
 
     public function getMyAllContractBeetwen($start, $end)
@@ -382,7 +383,7 @@ class ContractService extends BaseService
             true
         );
 
-        return new ApiResponse("Contract list by beetwen date", true, $contracts);
+        return new ApiResponse("Contract list by beetwen date", true, ContractResource::collection($contracts));
     }
 
     public function getContractReportYearByCompany($yearNumber)
@@ -412,7 +413,7 @@ class ContractService extends BaseService
 //            $end,
 //            true
 //        );
-        return new ApiResponse("Menin' kompaniyamnin' jilliq(godovoy) contractlar listi : ", true, $yearContracts);
+        return new ApiResponse("Menin' kompaniyamnin' jilliq(godovoy) contractlar listi : ", true, ContractResource::collection($yearContracts));
     }
 
     public function getMyContractReportDay($date)
@@ -440,7 +441,7 @@ class ContractService extends BaseService
             $dayEnd,
             true
         );
-        return new ApiResponse("Ku'nlik esabat : ", true, $contracts);
+        return new ApiResponse("Ku'nlik esabat : ", true, ContractResource::collection($contracts));
     }
 
     public function getMyContractReportYear($yearNumber)
@@ -469,7 +470,7 @@ class ContractService extends BaseService
 //            $yearEnd,
 //            true
 //        );
-        return new ApiResponse("Jilliq report : ", true, $contracts);
+        return new ApiResponse("Jilliq report : ", true, ContractResource::collection($contracts));
     }
 
     public function getMyContractReportMonth($month, $year)
@@ -499,7 +500,7 @@ class ContractService extends BaseService
 //            $end,
 //            true
 //        );
-        return new ApiResponse("Ayliq report : ", true, $contracts);
+        return new ApiResponse("Ayliq report : ", true, ContractResource::collection($contracts));
     }
 
 

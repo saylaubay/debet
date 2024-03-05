@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Http\Resources\ProductResource;
 use App\Models\ApiResponse;
 
 class ProductService extends BaseService
@@ -12,7 +13,7 @@ class ProductService extends BaseService
     public function getAll()
     {
         $products = $this->productRepository->findAll();
-        return new ApiResponse("Productlar dizimi : ", true, $products);
+        return new ApiResponse("Productlar dizimi : ", true, ProductResource::collection($products));
     }
 
     public function getOne($id)
@@ -21,7 +22,7 @@ class ProductService extends BaseService
         if ($product == null){
             return new ApiResponse("Bunday id li product tabilmadi!!!", false);
         }
-        return new ApiResponse("Product : ", true, $product);
+        return new ApiResponse("Product : ", true, new ProductResource($product));
     }
 
     public function save($product)
@@ -30,7 +31,7 @@ class ProductService extends BaseService
         if (!$product){
             return new ApiResponse("Bunday Product bazada bar!!!", false);
         }
-        return new ApiResponse("Saqlandi !!! ", true, $product);
+        return new ApiResponse("Saqlandi !!! ", true, new ProductResource($product));
     }
 
     public function update($id, $request)
@@ -42,7 +43,7 @@ class ProductService extends BaseService
         $product->name = $request->name;
         $product->model = $request->model;
         $product->save();
-        return new ApiResponse("Product : ", true, $product);
+        return new ApiResponse("Product : ", true, new ProductResource($product));
     }
 
     public function destroy($id)

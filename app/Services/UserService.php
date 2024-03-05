@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Http\Resources\UserResource;
 use App\Models\ApiResponse;
 use App\Models\Company;
 use App\Models\Role;
@@ -16,13 +17,13 @@ class UserService extends BaseService
     public function getUser()
     {
         $user = auth()->user();
-        return new ApiResponse("User : ", true, $user);
+        return new ApiResponse("User : ", true, new UserResource($user));
     }
 
     public function findAll()
     {
         $users = $this->userRepository->findAll();
-        return new ApiResponse("User list : ", true, $users);
+        return new ApiResponse("User list : ", true, UserResource::collection($users));
     }
 
     public function findById($id)
@@ -31,7 +32,7 @@ class UserService extends BaseService
         if ($user == null){
             return new ApiResponse("Bunday id li User tabilmadi!!!", false);
         }
-        return new ApiResponse("User : ", true, $user);
+        return new ApiResponse("User : ", true, new UserResource($user));
     }
 
     public function save($request)
@@ -39,7 +40,7 @@ class UserService extends BaseService
         $isHave = $this->userRepository->existsByUsername($request->username);
         if (!$isHave){
             $user = $this->userRepository->save($request);
-            return new ApiResponse("User saqlandi!!!", true, $user);
+            return new ApiResponse("User saqlandi!!!", true, new UserResource($user));
         }
         return new ApiResponse("Bunday user bazada bar!!!", false);
     }
@@ -60,7 +61,7 @@ class UserService extends BaseService
         $user->balance = $request->balance;
         $user->password = $request->password;
         $user->save();
-        return new ApiResponse("User updated!", true, $user);
+        return new ApiResponse("User updated!", true, new UserResource($user));
     }
 
     public function destroy($id)
@@ -77,7 +78,7 @@ class UserService extends BaseService
         $isHave = $this->userRepository->existsByUsername($username);
         if ($isHave){
             $user = $this->userRepository->findByUsername($username);
-            return new ApiResponse("User : ", true, $user);
+            return new ApiResponse("User : ", true, new UserResource($user));
         }
         return new ApiResponse("Bunda id li user tabilmadi!!!", false);
     }
@@ -89,7 +90,7 @@ class UserService extends BaseService
         if ($users == null){
             return new ApiResponse("Company yamasa role tabilmadi!!!", false);
         }
-        return new ApiResponse("Users : ", true, $users);
+        return new ApiResponse("Users : ", true, UserResource::collection($users));
     }
 
     public function blockUser($id, $company_id, $role_id)
@@ -98,7 +99,7 @@ class UserService extends BaseService
         if ($users == null){
             return new ApiResponse("User id yamasa Company yamasa role id tabilmadi!!!", false);
         }
-        return new ApiResponse("User bloklandi!!!", true, $users);
+        return new ApiResponse("User bloklandi!!!", true, new UserResource($users));
     }
 
     public function blockAllUser($user_id, $request)
@@ -111,7 +112,7 @@ class UserService extends BaseService
         $user = $this->userRepository->findById($user_id);
         $user->active = $request->active;
         $user->save();
-        return new ApiResponse("User bloklandi!", true, $user);
+        return new ApiResponse("User bloklandi!", true, new UserResource($user));
     }
 
     public function blockAdmin($id)
@@ -120,7 +121,7 @@ class UserService extends BaseService
         if ($user == null){
             return new ApiResponse("User id yamasa role id tabilmadi!!!", false);
         }
-        return new ApiResponse("Admin bloklandi!!!", true, $user);
+        return new ApiResponse("Admin bloklandi!!!", true, new UserResource($user));
     }
 
     public function unBlockUser($id)
@@ -135,7 +136,7 @@ class UserService extends BaseService
             return new ApiResponse("User id yamasa company id yamasa role id tabilmadi!!!", false);
         }
         $user = $this->userRepository->findByIdAndCompany_IdAndRole_RoleNameAndCompany_Active($id, $company->id, $role->id, false);
-        return new ApiResponse("User bloktan shag'arildi!!!", true, $user);
+        return new ApiResponse("User bloktan shag'arildi!!!", true, new UserResource($user));
     }
 
     public function unBlockAdmin($id)
@@ -144,7 +145,7 @@ class UserService extends BaseService
         if ($user == null){
             return new ApiResponse("Admin id yamasa role id tabilmadi!!!", false);
         }
-        return new ApiResponse("Admin bloktan shig`arildi!!!", true, $user);
+        return new ApiResponse("Admin bloktan shig`arildi!!!", true, new UserResource($user));
     }
 
     public function addBalance($request)
@@ -159,7 +160,7 @@ class UserService extends BaseService
         $BUser = $this->userRepository->findByIdAndCompanyActive($user->id, true);
         $BUser->balance = $BUser->balance + $request->summa;
         $BUser->save();
-        return new ApiResponse("Balance userg'a qosildi!!!", true, $BUser);
+        return new ApiResponse("Balance userg'a qosildi!!!", true, new UserResource($BUser));
     }
 
     public function getAllByCompanyId($id)
@@ -170,7 +171,7 @@ class UserService extends BaseService
             return new ApiResponse("Bunday id li company tabilmadi!!!", false);
         }
         $users = $this->userRepository->findByCompanyId($id);
-        return new ApiResponse("User list : ", true, $users);
+        return new ApiResponse("User list : ", true, UserResource::collection($users));
     }
 
     public function getAllByMyCompany($id)
@@ -180,7 +181,7 @@ class UserService extends BaseService
             return new ApiResponse("Bunday id li company tabilmadi!!!", false);
         }
         $users = $this->userRepository->findByRole_RoleNameAndCompany_Id("USER", $id);
-        return new ApiResponse("User list : ", true, $users);
+        return new ApiResponse("User list : ", true, UserResource::collection($users));
     }
 
 }

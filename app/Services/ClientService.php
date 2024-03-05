@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Http\Resources\ClientResource;
 use App\Models\ApiResponse;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -17,17 +18,18 @@ class ClientService extends BaseService
 
     public function addClient($request)
     {
-        $client = $this->clientRepository->existsByPhone($request->phone);
-        if ($client == null){
+        $clientBool = $this->clientRepository->existsByPhone($request->phone);
+        if ($clientBool == null){
             return new ApiResponse('Bunday klient bazada bar!', false);
         }
+        $client = $this->clientRepository->save($request->first_name, $request->last_name, $request->phone, $request->company_id);
         return new ApiResponse('Klient bazaga saqlandi!', true, $client);
     }
 
     public function getAll()
     {
         $clients = $this->clientRepository->findAll();
-        return new ApiResponse("Client list : ", true, $clients);
+        return new ApiResponse("Client list : ", true, ClientResource::collection($clients));
     }
 
     public function findById($id)
@@ -36,7 +38,7 @@ class ClientService extends BaseService
         if ($client == null){
             return new ApiResponse("Bunday id li client bazada tabilmadi!!!", false);
         }
-        return new ApiResponse("Client : ", true, $client);
+        return new ApiResponse("Client : ", true, new ClientResource($client));
     }
 
     public function update($id, $request)
@@ -64,7 +66,7 @@ class ClientService extends BaseService
         for ($x = 0; $x < $contracts->count(); $x++) {
             $clients[$x] = $contracts[$x];
         }
-        return new ApiResponse("My Clients : ", true, $clients);
+        return new ApiResponse("My Clients : ", true, ClientResource::collection($clients));
     }
 
     public function getClientsByUserId($id)
@@ -74,7 +76,7 @@ class ClientService extends BaseService
         for ($x = 0; $x < $contracts->count(); $x++) {
             $clients[$x] = $contracts[$x];
         }
-        return new ApiResponse("Clients : ", true, $clients);
+        return new ApiResponse("Clients : ", true, ClientResource::collection($clients));
     }
 
 

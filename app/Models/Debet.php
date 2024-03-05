@@ -9,6 +9,15 @@ class Debet extends Model
 {
     use HasFactory;
 
+
+    protected $casts = [
+        'active'=>'boolean',
+        'paid'=>'boolean',
+    ];
+
+    protected $foreignKeys = [
+        'contract' => 'contract_id',
+    ];
 //    protected $guarded = [];
 
     protected $fillable = [
@@ -21,9 +30,11 @@ class Debet extends Model
         "desc",
     ];
 
+
+
     public function contract()
     {
-        return $this->belongsTo(Contract::class);
+        return $this->belongsTo(Contract::class, $this->foreignKeys['contract'], 'id');
     }
 
 

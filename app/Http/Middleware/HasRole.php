@@ -22,8 +22,10 @@ class HasRole
     public function handle(Request $request, Closure $next, ...$list)
     {
         Log::alert("LOG ISLEDI!!!!");
+        Log::alert($request->user()->role->name);
         foreach ($list as $item) {
             if ($item == $request->user()->role->name){
+                Log::alert("URA");
                 return $next($request);
             }
         }

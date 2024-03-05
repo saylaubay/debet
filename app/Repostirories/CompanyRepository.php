@@ -39,6 +39,7 @@ class CompanyRepository implements CompanyRepositoryInterface
 
     public function getAllCompanies()
     {
-        return Company::all();
+        $companies = Company::all();
+        return $companies;
     }
 }

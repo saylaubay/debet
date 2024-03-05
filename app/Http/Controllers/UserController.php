@@ -19,7 +19,9 @@ use App\Services\RuleService;
 use App\Services\UserService;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use function Illuminate\Session\userId;
+use function Ramsey\Uuid\Lazy\toString;
 
 class UserController extends BaseController
 {
@@ -35,6 +37,14 @@ class UserController extends BaseController
     {
         $user = $this->userService->getUser();
         return $this->response($user);
+    }
+
+    public function getAllUsers()
+    {
+        Log::alert("SOraw keldi");
+        $users = $this->userService->findAll();
+        Log::alert("LIST = ".$users);
+        return $this->response($users);
     }
 
     public function index()

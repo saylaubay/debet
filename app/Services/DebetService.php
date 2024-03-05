@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Http\Resources\DebetResource;
 use App\Models\ApiResponse;
 use Carbon\Carbon;
 use function Symfony\Component\HttpFoundation\Session\Storage\start;
@@ -16,7 +17,7 @@ class DebetService extends BaseService
     public function getAll()
     {
         $debets = $this->debetRepository->findAll();
-        return new ApiResponse("Debet list : ", true, $debets);
+        return new ApiResponse("Debet list : ", true, DebetResource::collection($debets));
     }
 
     public function getOne($id)
@@ -25,7 +26,7 @@ class DebetService extends BaseService
         if ($debet == null){
             return new ApiResponse("Bunday id li debet tabilmadi!!!", false);
         }
-        return new ApiResponse("Debet : ", true, $debet);
+        return new ApiResponse("Debet : ", true, new DebetResource($debet));
     }
 
     public function destroy($id)
@@ -41,7 +42,7 @@ class DebetService extends BaseService
             return new ApiResponse("Bunday d li contract tabilmadi!!!", false);
         }
         $debet = $this->debetRepository->save($request);
-        return new ApiResponse("Debet saved!!!", true, $debet);
+        return new ApiResponse("Debet saved!!!", true, new DebetResource($debet));
     }
 
     public function getAllDebetByMyCompany()
@@ -51,7 +52,7 @@ class DebetService extends BaseService
         if ($debets == null){
             return new ApiResponse("Bunday id li contract tabilmadi!!!", false);
         }
-        return new ApiResponse("Debet list : ", true, $debets);
+        return new ApiResponse("Debet list : ", true, DebetResource::collection($debets));
     }
 
     public function getDebetReportDayByCompany()
@@ -72,7 +73,7 @@ class DebetService extends BaseService
 //            $end,
 //            true
 //        );
-        return new ApiResponse("Company boyinsha ku'nlik esabat!!!", true, $debets);
+        return new ApiResponse("Company boyinsha ku'nlik esabat!!!", true, DebetResource::collection($debets));
     }
 
     public function getDebetByContractIdNoPayed($contract_id)
@@ -80,7 +81,7 @@ class DebetService extends BaseService
         //findByContract_Worker_IdAndContract_IdAndPaid
         $debets = $this->debetRepository->findByContract_Worker_IdAndContract_IdAndPaid(auth()->user()->id, $contract_id, false);
 //        $debets = $this->debetRepository->findByContract_Worker_IdAndContract_IdAndPaid(1, $contract_id, false);
-        return new ApiResponse("Debet list : ", true, $debets);
+        return new ApiResponse("Debet list : ", true, DebetResource::collection($debets));
     }
 
     public function getDebetByContractIdPayed($contract_id)
@@ -88,7 +89,7 @@ class DebetService extends BaseService
         //findByContract_Worker_IdAndContract_IdAndPaid
         $debets = $this->debetRepository->findByContract_Worker_IdAndContract_IdAndPaid(auth()->user()->id, $contract_id, true);
 //        $debets = $this->debetRepository->findByContract_Worker_IdAndContract_IdAndPaid(1, $contract_id, true);
-        return new ApiResponse("Debet list : ", true, $debets);
+        return new ApiResponse("Debet list : ", true, DebetResource::collection($debets));
     }
 
     public function setPay($request)
@@ -125,8 +126,9 @@ class DebetService extends BaseService
 //        $start = Carbon::create(Carbon::now()->year, Carbon::now()->month+1, 1, 0, 0, 1);
 //        $end = Carbon::create(Carbon::now()->year, Carbon::now()->month+1, Carbon::now()->daysInMonth, 23, 59, 59);
         $list = $this->debetRepository->findByPaidAndContract_Worker_IdOrderByPayDate(false, auth()->user()->id);
+
 //        $list = $this->debetRepository->findByPaidAndContract_Worker_IdOrderByPayDate(false, 2);
-        return new ApiResponse("Jurnal listi", true, $list);
+        return new ApiResponse("Jurnal listi", true, DebetResource::collection($list));
     }
 
     public function getMyAllDebetToNow()
@@ -153,7 +155,7 @@ class DebetService extends BaseService
 //            true,
 //            false
 //        );
-        return new ApiResponse("Contract list", true, $debets);
+        return new ApiResponse("Contract list", true, DebetResource::collection($debets));
     }
 
     public function updateDebet($id, $pay)
@@ -165,7 +167,7 @@ class DebetService extends BaseService
         $debet->paid = $pay;
         $debet->save();
         $this->checkDebetList($debet->contract_id);
-        return new ApiResponse("Debet updated !!!", true, $debet);
+        return new ApiResponse("Debet updated !!!", true, new DebetResource($debet));
     }
 
     public function getMyAllDebetBeetwen($start, $end)
@@ -199,7 +201,7 @@ class DebetService extends BaseService
 //            true,
 //            true
 //        );
-        return new ApiResponse("Debet list beetwen by date", true, $debets);
+        return new ApiResponse("Debet list beetwen by date", true, DebetResource::collection($debets));
     }
 
 

@@ -5,16 +5,22 @@ namespace App\Services;
 
 
 use App\Http\Requests\CompanyUpdateRequest;
+use App\Http\Resources\CompanyResource;
 use App\Models\ApiResponse;
+use App\Models\Company;
 
 class CompanyService extends BaseService
 {
 
+    public function hammesi()
+    {
+        return new ApiResponse('Companylar dizimi:', true, Company::all());
+    }
+
     public function getAllCompanies()
     {
-//        dd("test");
-        $coms = $this->companyRepository->getAllCompanies();
-        return new ApiResponse('Companylar dizimi:', true, $coms);
+        $companies = $this->companyRepository->getAllCompanies();
+        return new ApiResponse('Companylar dizimi:', true, CompanyResource::collection($companies));
     }
 
     public function getCompanyById($id)
@@ -22,9 +28,9 @@ class CompanyService extends BaseService
         $company = $this->companyRepository->findById($id);
 
         if ($company == null){
-            return new ApiResponse("Bunday id li company tabilmadi!!!", false, $company);
+            return new ApiResponse("Bunday id li company tabilmadi!!!", false);
         }else{
-            return new ApiResponse("Company : ", true, $company);
+            return new ApiResponse("Company : ", true, new CompanyResource($company));
         }
     }
 
@@ -32,22 +38,22 @@ class CompanyService extends BaseService
     {
         $company = $this->companyRepository->findById($id);
         if ($company == null){
-            return new ApiResponse("Bunday id li company tabilmadi!!!", false, $company);
+            return new ApiResponse("Bunday id li company tabilmadi!!!", false);
         }
         $company->active = false;
         $company->save();
-        return new ApiResponse("Company bloklandi!!!", true, $company);
+        return new ApiResponse("Company bloklandi!!!", true, new CompanyResource($company));
     }
 
     public function unBlockCompany($id)
     {
         $company = $this->companyRepository->findById($id);
         if ($company == null){
-            return new ApiResponse("Bunday id li company tabilmadi!!!", false, $company);
+            return new ApiResponse("Bunday id li company tabilmadi!!!", false);
         }
         $company->active = true;
         $company->save();
-        return new ApiResponse("Company bloklantan shig`arildi!!!", true, $company);
+        return new ApiResponse("Company bloklantan shig`arildi!!!", true, new CompanyResource($company));
     }
 
     public function add($name)
@@ -67,6 +73,9 @@ class CompanyService extends BaseService
             return new ApiResponse("Bunday id li company tabilmadi!!!", false);
         }
         $company->name = $request->name;
+        if ($request->active == true ||$request->active == false) {
+            $company->active = $request->active;
+        }
         $company->save();
 
         return new ApiResponse("Company jan'alandi!!!", true);

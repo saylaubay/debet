@@ -7,6 +7,7 @@ use App\Http\Requests\DebetByContractIdRequest;
 use App\Http\Requests\DebetSetPayRequest;
 use App\Http\Requests\DebetStoreRequest;
 use App\Http\Requests\UpdateDebetRequest;
+use App\Http\Resources\DebetResource;
 use Illuminate\Http\Request;
 
 class DebetController extends BaseController

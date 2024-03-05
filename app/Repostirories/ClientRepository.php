@@ -13,17 +13,6 @@ use Ramsey\Uuid\Type\Integer;
 class ClientRepository implements ClientRepositoryInterface
 {
 
-
-    public function findByCompanyId($id)
-    {
-        // TODO: Implement findByCompanyId() method.
-    }
-
-    public function findbyCreatedBy($id)
-    {
-        // TODO: Implement findbyCreatedBy() method.
-    }
-
     public function findByCreatedByOrderByFirstName($id){
 //        $client = Client::find($id);
 //        if ($client == null){

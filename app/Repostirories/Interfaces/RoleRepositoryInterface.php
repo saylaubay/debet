@@ -2,6 +2,7 @@
 
 
 namespace App\Repostirories\Interfaces;
+//namespace App\Repositories\Interfaces;
 
 
 interface RoleRepositoryInterface

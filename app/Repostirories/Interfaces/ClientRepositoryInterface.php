@@ -21,9 +21,6 @@ interface ClientRepositoryInterface
 
     public function findAll();
 
-    public function findByCompanyId($id);
-
-    public function findbyCreatedBy($id);
 
     public function findByCreatedByOrderByFirstName($id);
 

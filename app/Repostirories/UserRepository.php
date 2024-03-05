@@ -17,9 +17,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function userTest()
     {
-//        $res = new ApiResponse('test', true);
-//        dd($res);
-        // TODO: Implement userTest() method.
+
     }
 
     public function findAll()

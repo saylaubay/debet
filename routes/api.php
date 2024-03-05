@@ -44,53 +44,78 @@ Route::middleware('auth:sanctum')->group(function () {
     })->middleware('hasRole:SUPER_ADMIN');
 
     Route::group(['prefix' => 'debets'], function () {
-        Route::post('setPay', [DebetController::class, 'setPay'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getJournal', [DebetController::class, 'getJournal'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::put('updateDebet', [DebetController::class, 'updateDebet'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getMyAllDebetToNow', [DebetController::class, 'getMyAllDebetToNow'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::post('getMyAllDebetBeetwen', [DebetController::class, 'getMyAllDebetBeetwen'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getAllDebetByMyCompany', [DebetController::class, 'getAllDebetByMyCompany'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::post('getDebetByContractIdPayed', [DebetController::class, 'getDebetByContractIdPayed'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getDebetReportDayByCompany', [DebetController::class, 'getDebetReportDayByCompany'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::post('getDebetByContractIdNoPayed', [DebetController::class, 'getDebetByContractIdNoPayed'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
+
+        Route::middleware(['hasRole:SUPER_ADMIN,ADMIN,USER'])->group(function () {
+            Route::post('setPay', [DebetController::class, 'setPay']);
+            Route::get('getJournal', [DebetController::class, 'getJournal']);
+            Route::put('updateDebet', [DebetController::class, 'updateDebet']);
+            Route::get('getMyAllDebetToNow', [DebetController::class, 'getMyAllDebetToNow']);
+            Route::post('getMyAllDebetBeetwen', [DebetController::class, 'getMyAllDebetBeetwen']);
+            Route::post('getDebetByContractIdPayed', [DebetController::class, 'getDebetByContractIdPayed']);
+            Route::post('getDebetByContractIdNoPayed', [DebetController::class, 'getDebetByContractIdNoPayed']);
+        });
+
+        Route::middleware(['hasRole:SUPER_ADMIN,ADMIN'])->group(function (){
+            Route::get('getAllDebetByMyCompany', [DebetController::class, 'getAllDebetByMyCompany']);
+            Route::get('getDebetReportDayByCompany', [DebetController::class, 'getDebetReportDayByCompany']);
+        });
+
     });
 
     Route::group(['prefix' => 'contracts'], function () {
+
         Route::get('test', [ContractController::class, 'test']);
-        Route::post('calc', [ContractController::class, 'calc'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::post('byNumber', [ContractController::class, 'byNumber'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getMyContract', [ContractController::class, 'getMyContract'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::post('addContractOld', [ContractController::class, 'addContractOld'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('findByClientPhone', [ContractController::class, 'findByClientPhone'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getAllContractByPayed', [ContractController::class, 'getAllContractByPayed'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getMyAllContractToNow', [ContractController::class, 'getMyAllContractToNow'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getMyContractReportDay', [ContractController::class, 'getMyContractReportDay'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::post('getAllContractByUserId', [ContractController::class, 'getAllContractByUserId'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::post('getContractByCompanyId', [ContractController::class, 'getContractByCompanyId'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::get('getMyContractReportYear', [ContractController::class, 'getMyContractReportYear'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getAllContractByNoPayed', [ContractController::class, 'getAllContractByNoPayed'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::post('getMyAllContractBeetwen', [ContractController::class, 'getMyAllContractBeetwen'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getMyContractReportMonth', [ContractController::class, 'getMyContractReportMonth'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getAllContractByClientAndUser', [ContractController::class, 'getAllContractByClientAndUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getContractReportDayByCompany', [ContractController::class, 'getContractReportDayByCompany'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::get('getContractReportYearByCompany', [ContractController::class, 'getContractReportYearByCompany'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::get('getContractReportMonthByCompany', [ContractController::class, 'getContractReportMonthByCompany'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
+
+
+        Route::middleware(['hasRole:SUPER_ADMIN,ADMIN,USER'])->group(function (){
+            Route::post('calc', [ContractController::class, 'calc']);
+            Route::post('byNumber', [ContractController::class, 'byNumber']);
+            Route::get('getMyContract', [ContractController::class, 'getMyContract']);
+            Route::post('addContractOld', [ContractController::class, 'addContractOld']);
+            Route::get('findByClientPhone', [ContractController::class, 'findByClientPhone']);
+            Route::get('getAllContractByPayed', [ContractController::class, 'getAllContractByPayed']);
+            Route::get('getMyAllContractToNow', [ContractController::class, 'getMyAllContractToNow']);
+            Route::get('getMyContractReportDay', [ContractController::class, 'getMyContractReportDay']);
+            Route::get('getMyContractReportYear', [ContractController::class, 'getMyContractReportYear']);
+            Route::get('getAllContractByNoPayed', [ContractController::class, 'getAllContractByNoPayed']);
+            Route::post('getMyAllContractBeetwen', [ContractController::class, 'getMyAllContractBeetwen']);
+            Route::get('getMyContractReportMonth', [ContractController::class, 'getMyContractReportMonth']);
+            Route::get('getAllContractByClientAndUser', [ContractController::class, 'getAllContractByClientAndUser']);
+
+        });
+
+        Route::middleware(['hasRole:SUPER_ADMIN,ADMIN'])->group(function (){
+            Route::post('getAllContractByUserId', [ContractController::class, 'getAllContractByUserId']);
+            Route::post('getContractByCompanyId', [ContractController::class, 'getContractByCompanyId']);
+            Route::get('getContractReportDayByCompany', [ContractController::class, 'getContractReportDayByCompany']);
+            Route::get('getContractReportYearByCompany', [ContractController::class, 'getContractReportYearByCompany']);
+            Route::get('getContractReportMonthByCompany', [ContractController::class, 'getContractReportMonthByCompany']);
+        });
+
 
     });
 
     Route::group(['prefix' => 'users'], function () {
-        Route::get('getAllUsers', [UserController::class, 'getAllUsers'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::get('getUser', [UserController::class, 'getUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::put('blockUser', [UserController::class, 'blockUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::put('blockAdmin', [UserController::class, 'blockAdmin'])->middleware('hasRole:SUPER_ADMIN');
-        Route::put('addBalance', [UserController::class, 'addBalance'])->middleware('hasRole:SUPER_ADMIN');
-        Route::put('unBlockUser', [UserController::class, 'unBlockUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::put('unBlockAdmin', [UserController::class, 'unBlockAdmin'])->middleware('hasRole:SUPER_ADMIN');
-        Route::get('findByUsername', [UserController::class, 'findByUsername'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-        Route::put('blockAllUser/{id}', [UserController::class, 'blockAllUser'])->middleware('hasRole:SUPER_ADMIN');
-        Route::get('getUsersMyCompany', [UserController::class, 'getUsersMyCompany'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::get('getAllByCompanyId', [UserController::class, 'getAllByCompanyId'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
-        Route::get('getAllByMyCompany', [UserController::class, 'getAllByMyCompany'])->middleware('hasRole:SUPER_ADMIN,ADMIN');
+
+        Route::middleware(['hasRole:SUPER_ADMIN,ADMIN,USER'])->group(function (){
+            Route::get('getAllUsers', [UserController::class, 'getAllUsers'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
+            Route::get('getUser', [UserController::class, 'getUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
+            Route::get('findByUsername', [UserController::class, 'findByUsername'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
+        });
+
+        Route::middleware(['hasRole:SUPER_ADMIN,ADMIN'])->group(function (){
+            Route::put('blockUser', [UserController::class, 'blockUser']);
+            Route::put('blockAdmin', [UserController::class, 'blockAdmin']);
+            Route::put('addBalance', [UserController::class, 'addBalance']);
+            Route::put('unBlockUser', [UserController::class, 'unBlockUser']);
+            Route::put('unBlockAdmin', [UserController::class, 'unBlockAdmin']);
+            Route::put('blockAllUser/{id}', [UserController::class, 'blockAllUser']);
+            Route::get('getUsersMyCompany', [UserController::class, 'getUsersMyCompany']);
+            Route::get('getAllByCompanyId', [UserController::class, 'getAllByCompanyId']);
+            Route::get('getAllByMyCompany', [UserController::class, 'getAllByMyCompany']);
+        });
+
+
     });
 
     Route::group(['prefix' => 'clients'], function () {

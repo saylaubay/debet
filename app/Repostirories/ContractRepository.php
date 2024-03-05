@@ -144,7 +144,7 @@ class ContractRepository implements ContractRepositoryInterface
         $contracts = Contract::where('user_id', $id)->get();
         return $contracts;
     }
-//findByClient_PhoneContainingAndWorker_Company_IdAndClient_Company_IdAndWorker_Id
+
     public function findByPhone($phone, $worker_company_id, $client_company, $worker_id)
     {
         $contract = Contract::where('user_id', 1)->

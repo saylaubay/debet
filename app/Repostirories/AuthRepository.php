@@ -10,10 +10,6 @@ use App\Repostirories\Interfaces\AuthRepositoryInterface;
 class AuthRepository implements AuthRepositoryInterface
 {
 
-    public function register()
-    {
-        // TODO: Implement register() method.
-    }
 
     public function login($username, $password)
     {

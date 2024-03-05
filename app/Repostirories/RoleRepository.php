@@ -7,6 +7,8 @@ namespace App\Repostirories;
 use App\Models\Role;
 use App\Repostirories\Interfaces\RoleRepositoryInterface;
 
+//use App\Repositories\Interfaces\RoleRepositoryInterface;
+
 class RoleRepository implements RoleRepositoryInterface
 {
 

@@ -96,9 +96,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::group(['prefix' => 'users'], function () {
 
         Route::middleware(['hasRole:SUPER_ADMIN,ADMIN,USER'])->group(function (){
-            Route::get('getAllUsers', [UserController::class, 'getAllUsers'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-            Route::get('getUser', [UserController::class, 'getUser'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
-            Route::get('findByUsername', [UserController::class, 'findByUsername'])->middleware('hasRole:SUPER_ADMIN,ADMIN,USER');
+            Route::get('getAllUsers', [UserController::class, 'getAllUsers']);
+            Route::get('getUser', [UserController::class, 'getUser']);
+            Route::get('findByUsername', [UserController::class, 'findByUsername']);
         });
 
         Route::middleware(['hasRole:SUPER_ADMIN,ADMIN'])->group(function (){

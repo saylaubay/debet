@@ -4,8 +4,6 @@
 namespace App\Repostirories\Interfaces;
 
 
-use App\Models\Contract;
-
 interface ContractRepositoryInterface
 {
 
@@ -15,8 +13,6 @@ interface ContractRepositoryInterface
 
     public function findAll();
 
-    public function saveAll();
-
     public function save($contract);
 
     public function findById($id);
@@ -24,8 +20,6 @@ interface ContractRepositoryInterface
     public function deleteById($id);
 
     public function findByClient_Phone($clent_phone);
-
-    public function findByClient_PhoneContainingAndWorker_Company_IdAndClient_Company_IdAndWorker_Id($client_phone, $worker_company_id, $client_company_id, $worker_id);
 
     public function findByEnabledAndClient_Company_IdAndWorker_Company_IdAndWorker_IdOrderByCreatedAt($active, $client_company_id, $worker_company_id, $worker_id);
 

@@ -12,12 +12,6 @@ use App\Repostirories\Interfaces\DebetRepositoryInterface;
 class DebetRepository implements DebetRepositoryInterface
 {
 
-
-    public function saveAll($debets)
-    {
-        // TODO: Implement saveAll() method.
-    }
-
     public function save($debet)
     {
         return Debet::create([
@@ -32,11 +26,6 @@ class DebetRepository implements DebetRepositoryInterface
         return Debet::find($id);
     }
 
-    public function deleteById($id)
-    {
-        // TODO: Implement deleteById() method.
-    }
-
     public function findAll()
     {
         return Debet::all();
@@ -49,7 +38,6 @@ class DebetRepository implements DebetRepositoryInterface
 
     public function findByContractIdAndId($contract_id, $id)
     {
-        //findByContractIdAndId
         return Debet::where('contract_id', $contract_id)->where('id', $id)->first();
     }
                     //findByContract_Worker_CompanyAndContract_Worker_CompanyActive
@@ -69,17 +57,12 @@ class DebetRepository implements DebetRepositoryInterface
         return $debets;
     }
 
-    public function findByContract_Worker_CompanyAndCreatedAtBetweenAndContract_Worker_CompanyActive($contract_worker_company, $created_at, $created_at2, $contract_worker_company_active)
-    {
-        // TODO: Implement findByContract_Worker_CompanyAndCreatedAtBetweenAndContract_Worker_CompanyActive() method.
-    }
                   //findByContract_Worker_IdAndContract_IdAndPaid
     public function findByContract_Worker_IdAndContract_IdAndPaid($contract_worker_id, $contract_id, $paid)
     {
         return Debet::where('contract_id', $contract_id)->
             where('paid', false)->
             join('contracts', 'contracts.id', '=', 'debets.contract_id')->
-//            join('users', 'users.id', '=', 'contracts.user_id')->
             where('contracts.user_id', $contract_worker_id)->
         get();
     }
@@ -87,7 +70,6 @@ class DebetRepository implements DebetRepositoryInterface
     public function findByContract_Worker_IdAndUpdatedAtBetweenAndContract_Worker_Company_ActiveAndPaid($contract_worker_id, $updated_at, $updated_at2, $contract_worker_company_active, $paid)
     {
         return Debet::where('paid', $paid)->
-//            where('updated_at', )
             join('contracts', 'contracts.id', '=', 'debets.contract_id')->
             join('users', 'contracts.user_id', '=', 'users.id')->
             join('companies', 'companies.id', '=', 'users.company_id')->
@@ -111,15 +93,12 @@ class DebetRepository implements DebetRepositoryInterface
     public function findByPaidAndContract_Worker_IdAndPayDateBetweenOrderByPayDate($paid, $contract_worker_id, $created_at, $created_at2)
     {
         return Debet::where('paid', $paid)->
-//            where('debets.created_at', '>=', $created_at)->
-//            where('debets.created_at', '<=', $created_at2)->
         join('contracts', 'contracts.id', '=', 'debets.contract_id')->
         where([
             ['contracts.user_id', '=', $contract_worker_id],
             ['debets.pay_date', '>=', $created_at],
             ['debets.pay_date', '<=', $created_at2],
         ])->
-//        orderBy('pay_date')->
         get();
     }
 
@@ -137,4 +116,5 @@ class DebetRepository implements DebetRepositoryInterface
             'pay_date' => $pay_date,
         ]);
     }
+
 }

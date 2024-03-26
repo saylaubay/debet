@@ -21,14 +21,9 @@ interface ClientRepositoryInterface
 
     public function findAll();
 
-
     public function findByCreatedByOrderByFirstName($id);
 
     public function existsByPhone($phone);
-
-    public function existsByPhoneAndCreatedBy($phone, $id);
-
-    public function findAllByOrderByFirstName();
 
 
 }

@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Hash;
 class UserRepository implements UserRepositoryInterface
 {
 
-    public function userTest()
-    {
-
-    }
-
     public function findAll()
     {
         return User::all();
@@ -55,21 +50,6 @@ class UserRepository implements UserRepositoryInterface
             return true;
         }
         return false;
-    }
-
-    public function delete($user)
-    {
-        // TODO: Implement delete() method.
-    }
-
-    public function deleteAllById($ids)
-    {
-        // TODO: Implement deleteAllById() method.
-    }
-
-    public function deleteAll($users)
-    {
-        // TODO: Implement deleteAll() method.
     }
 
     public function findByUsername($username)
@@ -112,7 +92,6 @@ class UserRepository implements UserRepositoryInterface
             ['role_id', $role_id],
             ['active', $company_active],
         ])->first();
-//        dd($user);
         $user->active= false;
         $user->save();
         return $user;
@@ -135,11 +114,6 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
-    public function findByRole_RoleNameOrRole_RoleName($role_name, $role_name2)
-    {
-        // TODO: Implement findByRole_RoleNameOrRole_RoleName() method.
-    }
-
     public function findByIdAndCompanyActive($id, $company_active)
     {
        return $user = User::where([
@@ -151,7 +125,6 @@ class UserRepository implements UserRepositoryInterface
     public function findByRole_RoleNameAndCompany_Id($role_name, $company_id)
     {
         $role = Role::where('name', $role_name)->first();
-//        dd($role);
         $users = User::where([
             ['role_id', $role->id],
             ['company_id', $company_id],
@@ -162,7 +135,6 @@ class UserRepository implements UserRepositoryInterface
     public function existsByUsername($username)
     {
         $user = User::where('username', $username)->exists();
-//        dd($user);
         return $user;
     }
 

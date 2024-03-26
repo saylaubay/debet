@@ -36,21 +36,6 @@ class RoleRepository implements RoleRepositoryInterface
         return Role::destroy($id);
     }
 
-    public function delete($role)
-    {
-        // TODO: Implement delete() method.
-    }
-
-    public function deleteAllById($ids)
-    {
-        // TODO: Implement deleteAllById() method.
-    }
-
-    public function deleteAll($roles)
-    {
-        // TODO: Implement deleteAll() method.
-    }
-
     public function existByName($name)
     {
         return Role::where('name', $name)->exists();

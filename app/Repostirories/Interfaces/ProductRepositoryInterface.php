@@ -15,12 +15,4 @@ interface ProductRepositoryInterface
 
     public function deleteById($id);
 
-    public function delete($product);
-
-    public function deleteAllById($ids);
-
-    public function deleteAll($products);
-
-
-
 }

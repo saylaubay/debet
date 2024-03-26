@@ -23,7 +23,6 @@ class ProductRepository implements ProductRepositoryInterface
     public function save($product)
     {
         $prod = Product::where('name', $product->name)->exists();
-//        dd($prod);
         if ($prod){
             return false;
         }
@@ -39,18 +38,4 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::destroy($id);
     }
 
-    public function delete($product)
-    {
-        // TODO: Implement delete() method.
-    }
-
-    public function deleteAllById($ids)
-    {
-        // TODO: Implement deleteAllById() method.
-    }
-
-    public function deleteAll($products)
-    {
-        // TODO: Implement deleteAll() method.
-    }
 }

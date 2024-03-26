@@ -11,13 +11,9 @@ interface DebetRepositoryInterface
 
     public function findFirst();
 
-    public function saveAll($debets);
-
     public function save($debet);
 
     public function findById($id);
-
-    public function deleteById($id);
 
     public function findAll();
 
@@ -26,8 +22,6 @@ interface DebetRepositoryInterface
     public function findByContractIdAndId($contract_id, $id);
 
     public function findByContract_Worker_CompanyAndContract_Worker_CompanyActive($contract_worker_company, $contract_worker_company_active);
-
-    public function findByContract_Worker_CompanyAndCreatedAtBetweenAndContract_Worker_CompanyActive($contract_worker_company, $created_at, $created_at2, $contract_worker_company_active);
 
     public function findByContract_Worker_IdAndContract_IdAndPaid($contract_worker_id, $contract_id, $paid);
 

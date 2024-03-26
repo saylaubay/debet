@@ -14,12 +14,7 @@ class ClientRepository implements ClientRepositoryInterface
 {
 
     public function findByCreatedByOrderByFirstName($id){
-//        $client = Client::find($id);
-//        if ($client == null){
-//            return false;
-//        }
         $clients = Client::query()->where('id', $id)->orderBy('first_name','asc')->get();
-//        dd($client);
         return $clients;
     }
 
@@ -33,17 +28,6 @@ class ClientRepository implements ClientRepositoryInterface
 
         return $client;
     }
-
-    public function existsByPhoneAndCreatedBy($phone, $id)
-    {
-        // TODO: Implement existsByPhoneAndCreatedBy() method.
-    }
-
-    public function findAllByOrderByFirstName()
-    {
-        // TODO: Implement findAllByOrderByFirstName() method.
-    }
-
 
     public function findAll()
     {

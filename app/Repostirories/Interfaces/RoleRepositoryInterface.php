@@ -18,16 +18,4 @@ interface RoleRepositoryInterface
 
     public function deleteById($id);
 
-    public function delete($role);
-
-    public function deleteAllById($ids);
-
-    public function deleteAll($roles);
-
-
-
-
-
-
-
 }
